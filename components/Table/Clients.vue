@@ -271,7 +271,7 @@
         </Dialog>
 
         <Dialog v-model:open="showCarInfoPopup">
-            <DialogContent class="sm:max-w-md">
+            <DialogScrollContent class="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle v-if="carInfoPopupData?.clientCars.length">Інформація про автомобіль</DialogTitle>
                     <DialogTitle v-else>Додати автомобіль для {{ carInfoPopupData?.firstName }} {{ carInfoPopupData?.lastName }}</DialogTitle>
@@ -455,7 +455,7 @@
                         <span v-else>Додати авто</span>
                     </Button>
                 </DialogFooter>
-            </DialogContent>
+            </DialogScrollContent>
         </Dialog>
     </div>
 </template>
