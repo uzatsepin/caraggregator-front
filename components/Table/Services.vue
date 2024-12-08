@@ -375,9 +375,8 @@
                             id="specializations"
                             label="Спеціалізації"
                             :options="carBrands"
-                            v-model="specializationsData"
-                        />
-                        </div>
+                            v-model="specializationsData" />
+                    </div>
 
                     <DialogFooter>
                         <Button
@@ -400,7 +399,9 @@
             <DialogContent class="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle>Деталі СТО {{ viewPopupData?.stationName }}</DialogTitle>
-                    <DialogDescription> інформація про станцію технічного обслуговування {{ viewPopupData?.stationName }} </DialogDescription>
+                    <DialogDescription>
+                        інформація про станцію технічного обслуговування {{ viewPopupData?.stationName }}
+                    </DialogDescription>
                 </DialogHeader>
 
                 <Table>
@@ -419,15 +420,21 @@
                         </TableRow>
                         <TableRow>
                             <TableCell class="font-medium bg-slate-50">Адреса</TableCell>
-                            <TableCell>{{viewPopupData?.address}}</TableCell>
+                            <TableCell>{{ viewPopupData?.address }}</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell class="font-medium bg-slate-50">Email</TableCell>
+                            <TableCell>{{ viewPopupData?.email }}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell class="font-medium bg-slate-50">Спеціалізації (бренди)</TableCell>
-                            <TableCell>{{ viewPopupData?.specializations.map(item => item.brand.brandName).join(', ') || '-'}}</TableCell>
+                            <TableCell>{{
+                                viewPopupData?.specializations.map((item) => item.brand.brandName).join(", ") || "-"
+                            }}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell class="font-medium bg-slate-50">Замовлень</TableCell>
-                            <TableCell>{{ viewPopupData?.serviceOrders.length}}</TableCell>
+                            <TableCell>{{ viewPopupData?.serviceOrders.length }}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -500,6 +507,7 @@ interface ServiceStation {
             carNumber: string;
         };
     }>;
+    totalRevenue: string;
 }
 
 interface City {
@@ -523,7 +531,7 @@ const addFormData = ref({
     address: "",
     phone: "",
     email: "",
-    rating: "",
+    rating: ""
 });
 
 const editFormData = ref({
@@ -564,22 +572,21 @@ const columns: ColumnDef<ServiceStation>[] = [
         enableSorting: true
     },
     {
-        accessorKey: "email",
-        header: "Email",
-        enableSorting: true,
-        cell: ({ row }) => row.original.email || "-"
-    },
-    {
-        accessorKey: "rating",
-        header: "Рейтинг",
-        enableSorting: true,
-        cell: ({ row }) => (row.original.rating ? parseFloat(row.original.rating).toFixed(2) : "-")
-    },
-    {
         id: "specializations",
-        header: "Бренди",
+        header: "Спеціалізацій",
         enableSorting: true,
         cell: ({ row }) => row.original.specializations.length || 0
+    },
+    {
+        accessorKey: "totalRevenue",
+        header: "Дохід",
+        enableSorting: true,
+        cell: ({ row }) =>
+            `${new Intl.NumberFormat("uk-UA", {
+                style: "currency",
+                currency: "UAH",
+                minimumFractionDigits: 0
+            }).format(Number(row.original.totalRevenue))}`
     },
     {
         id: "actions",
@@ -655,7 +662,7 @@ const handleAddSubmit = async () => {
             address: "",
             phone: "",
             email: "",
-            rating: "",
+            rating: ""
         };
     } catch (error: any) {
         toast.error(`Помилка при створенні станції: ${error.response?.data?.errorMessage || error.message}`);
@@ -690,9 +697,7 @@ const handleCloseDeletePopup = () => {
 };
 
 const handleOpenEditPopup = (station: ServiceStation) => {
-    specializationsData.value = [...new Set(
-        station.specializations.map(spec => spec.brandId)
-    )];
+    specializationsData.value = [...new Set(station.specializations.map((spec) => spec.brandId))];
 
     editFormData.value = {
         ...station,
@@ -736,13 +741,13 @@ const handleEditSubmit = async () => {
 const handleSubmitSpecializations = async () => {
     try {
         if (specializationsData.value.length > 0) {
-            await $axios.post('/specializations/batch-update', {
+            await $axios.post("/specializations/batch-update", {
                 stationId: editFormData.value.stationId,
                 specializations: specializationsData.value
             });
-            
+
             await fetchServiceStations();
-            toast.success('Спеціалізації успішно оновлено');
+            toast.success("Спеціалізації успішно оновлено");
         }
     } catch (error: any) {
         toast.error(`Помилка при оновленні спеціалізацій: ${error.response?.data?.message || error.message}`);
@@ -805,12 +810,12 @@ const handleOpenViewPopup = async (id: number) => {
 const carBrands = ref<{ brandId: number; brandName: string }[]>([]);
 
 const fetchCarBrands = async () => {
-  try {
-    const response = await $axios.get('/car-brands');
-    carBrands.value = response.data;
-  } catch (error) {
-    console.error('Ошибка при получении брендов автомобилей:', error);
-  }
+    try {
+        const response = await $axios.get("/car-brands");
+        carBrands.value = response.data;
+    } catch (error) {
+        console.error("Ошибка при получении брендов автомобилей:", error);
+    }
 };
 
 onMounted(() => {

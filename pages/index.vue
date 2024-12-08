@@ -14,6 +14,12 @@
                     :icon="item.icon" />
             </div>
         </div>
+
+        <MainCarPopularity />
+
+        <MainBrandsCost />
+
+        <MainStationPerformance />
     </div>
 </template>
 

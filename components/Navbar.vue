@@ -48,9 +48,14 @@ const pages = [
         icon: 'lucide:car'
     },
     {
-        name: "Логування",
-        link: "/cars",
-        icon: 'lucide:car'
+        name: "Логування статусів",
+        link: "/logs",
+        icon: 'ix:log'
+    },
+    {
+        name: "Логування авто",
+        link: "/car-logs",
+        icon: 'mdi:car-clock'
     },
 ];
 </script>

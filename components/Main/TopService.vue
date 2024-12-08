@@ -7,11 +7,11 @@
                 <Icon name="lucide:navigation" class="w-5 h-5"/>
                 <span class="text-slate-600">{{item?.city_name}}</span>
             </p>
-            <p class="flex items-center gap-2 mt-4">
+            <!-- <p class="flex items-center gap-2 mt-4">
                 <Icon name="lucide:message-circle-heart" class="w-5 h-5" />
                 <span class="text-slate-600">Рейтинг:</span>
                 <span class="text-slate-800">{{item?.rating}}</span>
-            </p>
+            </p> -->
             <p class="flex items-center gap-2 mt-4">
                 <Icon name="maki:car-repair" class="w-5 h-5" />
                 <span class="text-slate-600">Виконано замовлень:</span>

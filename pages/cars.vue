@@ -78,6 +78,7 @@
                             <th class="px-4 py-2 text-left font-medium text-gray-700 border-b">Назва Моделі</th>
                             <th class="px-4 py-2 text-left font-medium text-gray-700 border-b">Бренд</th>
                             <th class="px-4 py-2 text-left font-medium text-gray-700 border-b">Рік</th>
+                            <th class="px-4 py-2 text-left font-medium text-gray-700 border-b">Середня вартість ремонту</th>
                             <th class="px-4 py-2 text-center font-medium text-gray-700 border-b">Дії</th>
                         </tr>
                     </thead>
@@ -90,6 +91,11 @@
                             <td class="px-4 py-2 text-gray-600 border-b">{{ model.modelName }}</td>
                             <td class="px-4 py-2 text-gray-600 border-b">{{ getBrandName(model.brandId) }}</td>
                             <td class="px-4 py-2 text-gray-600 border-b">{{ model.modelYear }}</td>
+                            <td class="px-4 py-2 text-gray-600 border-b">{{ new Intl.NumberFormat("uk-UA", {
+                                        style: "currency",
+                                        currency: "UAH",
+                                        minimumFractionDigits: 0
+                                    }).format(Number(model.avgServiceCost)) }}</td>
                             <td class="px-4 py-2 text-center border-b">
                                 <Button
                                     variant="destructive"
@@ -293,6 +299,7 @@ interface CarModel {
     modelName: string;
     brandId: number;
     modelYear: number
+    avgServiceCost: string;
 }
 
 const carBrands = ref<CarBrand[]>([]);

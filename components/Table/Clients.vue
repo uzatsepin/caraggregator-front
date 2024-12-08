@@ -181,6 +181,29 @@
             </table>
         </div>
 
+        <div class="flex items-center justify-between py-4">
+            <span class="text-sm text-gray-700">
+                Сторінка {{ table.getState().pagination.pageIndex + 1 }} з
+                {{ table.getPageCount() }}
+            </span>
+            <div class="space-x-2">
+                <button
+                    class="rounded-md px-3 py-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                    :disabled="!table.getCanPreviousPage()"
+                    @click="table.previousPage()"
+                >
+                    Попередня
+                </button>
+                <button
+                    class="rounded-md px-3 py-2 bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                    :disabled="!table.getCanNextPage()"
+                    @click="table.nextPage()"
+                >
+                    Наступна
+                </button>
+            </div>
+        </div>
+
         <Dialog v-model:open="showDeleteClientModal">
             <DialogContent class="sm:max-w-md">
                 <DialogHeader>
@@ -834,7 +857,7 @@ const handleCloseCarPopup = () => {
 onMounted(fetchClients);
 
 watchEffect(() => {
-    table.setPageSize(40);
+    table.setPageSize(10);
 });
 </script>
 
