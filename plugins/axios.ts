@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default defineNuxtPlugin(() => {
   const instance = axios.create({
-    baseURL: "http://localhost:3002/api",
+    baseURL: "https://webway.click/api",
     timeout: 10000,
     headers: {
       "Content-Type": "application/json"
