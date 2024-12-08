@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "cleanup": "sudo rm -rf /var/www/html/*",
-    "deploy": "yarn generate && yarn cleanup && sudo cp -r .output/public/* /var/www/html/"
+    "deploy": "yarn generate && yarn cleanup && sudo cp -r .output/public/* /var/www/html/webway.click"
   },
   "dependencies": {
     "@nuxt/icon": "^1.9.0",
