@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "cleanup": "sudo rm -rf /var/www/html/*",
+    "cleanup": "sudo rm -rf /var/www/html/webway.click/*",
     "deploy": "yarn generate && yarn cleanup && sudo cp -r .output/public/* /var/www/html/webway.click"
   },
   "dependencies": {
