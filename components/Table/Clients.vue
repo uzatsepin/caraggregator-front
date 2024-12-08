@@ -80,7 +80,7 @@
             </Dialog>
         </div>
 
-        <div class="rounded-lg border shadow-sm overflow-x-auto">
+        <div class="rounded-lg border shadow-sm overflow-x-auto" v-if="!loading">
             <table class="w-full table-auto border-collapse">
                 <thead class="bg-gray-50">
                     <tr>
@@ -179,6 +179,10 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div v-else class="flex items-center justify-center">
+            <Preloader />
         </div>
 
         <div class="flex items-center justify-between py-4">

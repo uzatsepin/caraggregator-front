@@ -20,7 +20,7 @@
                     class="max-w-sm" />
             </div>
 
-            <div class="rounded-lg border shadow-sm overflow-x-auto">
+            <div class="rounded-lg border shadow-sm overflow-x-auto" v-if="!loading">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -93,6 +93,11 @@
                         </TableRow>
                     </TableBody>
                 </Table>
+            </div>
+            <div
+                class="flex items-center justify-center h-48"
+                v-else>
+                <Preloader :width="24" :height="24" />
             </div>
         </section>
 
@@ -533,6 +538,7 @@ const editedStatus = ref("");
 const selectedApplicationId = ref<number | null>(null);
     const editedServiceType = ref('');
 const editedTotalCost = ref<string>('');
+const loading = ref(false);
 
 
 const onClientSelect = (clientId: number) => {
@@ -655,33 +661,43 @@ function setGlobalFilter(value: string) {
 }
 
 const fetchApplications = async () => {
+    loading.value = true;
     try {
         const response = await $axios.get<Application[]>("/service-orders");
         applications.value = response.data;
     } catch (error: any) {
         toast.error(`Помилка завантаження заявок: ${error.response?.data?.message || error.message}`);
+    } finally {
+        loading.value = false;
     }
 };
 
 const fetchClients = async () => {
+    loading.value = true;
     try {
         const response = await $axios.get<Client[]>("/clients");
         clients.value = response.data;
     } catch (error: any) {
         toast.error(`Помилка завантаження клієнтів: ${error.response?.data?.message || error.message}`);
+    } finally {
+        loading.value = false;
     }
 };
 
 const fetchServiceStations = async () => {
+    loading.value = true;
     try {
         const response = await $axios.get<ServiceStation[]>("/service-stations");
         serviceStations.value = response.data;
     } catch (error: any) {
         toast.error(`Помилка завантаження станцій: ${error.response?.data?.message || error.message}`);
+    } finally {
+        loading.value = false;
     }
 };
 
 const addApplication = async () => {
+    loading.value = true;
     try {
         isAddingApplication.value = true;
         const payload = { ...newApplication.value };
@@ -703,6 +719,7 @@ const addApplication = async () => {
         toast.error(`Помилка при додаванні заявки: ${error.response?.data?.message || error.message}`);
     } finally {
         isAddingApplication.value = false;
+        loading.value = false;
     }
 };
 
@@ -734,6 +751,7 @@ const closeDeleteModal = () => {
 };
 
 const confirmDelete = async () => {
+    loading.value = true;
     if (deleteId.value === null) return;
     try {
         isDeleting.value = true;
@@ -745,6 +763,7 @@ const confirmDelete = async () => {
         toast.error(`Помилка при видаленні заявки: ${error.response?.data?.message || error.message}`);
     } finally {
         isDeleting.value = false;
+        loading.value = false;
     }
 };
 
@@ -775,6 +794,7 @@ const handleCloseEditStatusPopup = () => {
 };
 
 const handleStatusSubmit = async () => {
+    loading.value = true;
     try {
         if (!selectedApplicationId.value) return;
         
@@ -797,6 +817,8 @@ const handleStatusSubmit = async () => {
         handleCloseEditStatusPopup();
     } catch (error: any) {
         toast.error(`Помилка при оновленні заявки: ${error.response?.data?.message || error.message}`);
+    } finally {
+        loading.value = false;
     }
 };
 

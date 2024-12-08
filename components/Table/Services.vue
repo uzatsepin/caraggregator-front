@@ -481,7 +481,7 @@ interface ServiceStation {
     address: string;
     phone: string;
     email: string | null;
-    rating: string | null;
+    rating: number | null;
     specializations: Array<{
         id: number;
         stationId: number;
@@ -533,7 +533,7 @@ const addFormData = ref({
     address: "",
     phone: "",
     email: "",
-    rating: ""
+    rating: 5
 });
 
 const editFormData = ref({
@@ -543,7 +543,7 @@ const editFormData = ref({
     address: "",
     phone: "",
     email: "",
-    rating: ""
+    rating: 0
 });
 
 const specializationsData = ref<number[]>([]);
@@ -647,7 +647,7 @@ const handleCloseAddPopup = () => {
         address: "",
         phone: "",
         email: "",
-        rating: ""
+        rating: 5
     };
 };
 
@@ -664,7 +664,7 @@ const handleAddSubmit = async () => {
             address: "",
             phone: "",
             email: "",
-            rating: ""
+            rating: 5
         };
     } catch (error: any) {
         toast.error(`Помилка при створенні станції: ${error.response?.data?.errorMessage || error.message}`);
@@ -705,7 +705,7 @@ const handleOpenEditPopup = (station: ServiceStation) => {
         ...station,
         cityId: station.cityId.toString(),
         email: station.email || "",
-        rating: station.rating || ""
+        rating: station.rating || 5
     };
     showEditServiceStationModal.value = true;
 };
@@ -719,7 +719,7 @@ const handleCloseEditPopup = () => {
         address: "",
         phone: "",
         email: "",
-        rating: ""
+        rating: 0
     };
     specializationsData.value = [];
 };

@@ -49,10 +49,6 @@ onMounted(async () => {
 
 const columns: ColumnDef<ILogs>[] = [
     {
-        accessorKey: "logId",
-        header: "ID"
-    },
-    {
         accessorKey: "orderId",
         header: "# заявки"
     },

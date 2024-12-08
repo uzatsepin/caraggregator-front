@@ -86,10 +86,6 @@ onMounted(async () => {
 
 const columns: ColumnDef<Log>[] = [
     {
-        accessorKey: "logId",
-        header: "ID"
-    },
-    {
         accessorKey: "car",
         header: "Авто",
         cell: ({ row }) => h("span", `${row.original.car.carModel.brand.brandName} ${row.original.car.carModel.modelName}`)
