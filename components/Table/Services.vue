@@ -95,7 +95,7 @@
                                 placeholder="email@example.com" />
                         </div>
 
-                        <div class="space-y-2">
+                        <!-- <div class="space-y-2">
                             <Label for="rating">Рейтинг</Label>
                             <Input
                                 id="rating"
@@ -105,7 +105,7 @@
                                 min="0"
                                 max="5"
                                 step="0.01" />
-                        </div>
+                        </div> -->
 
                         <DialogFooter>
                             <Button
@@ -360,7 +360,7 @@
                             placeholder="email@example.com" />
                     </div>
 
-                    <div class="space-y-2">
+                    <!-- <div class="space-y-2">
                         <Label for="editRating">Рейтинг</Label>
                         <Input
                             id="editRating"
@@ -370,7 +370,7 @@
                             min="0"
                             max="5"
                             step="0.01" />
-                    </div>
+                    </div> -->
 
                     <div class="space-y-2">
                         <ServicesMultiSelect
