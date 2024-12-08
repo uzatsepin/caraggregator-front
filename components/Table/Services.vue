@@ -210,8 +210,10 @@
             class="flex items-center justify-center">
             <p
                 v-if="loading"
-                class="text-gray-600">
-                Завантаження...
+                class="text-gray-600 flex items-center justify-center">
+                <Preloader
+                    :width="24"
+                    :height="24" />
             </p>
             <p
                 v-else
