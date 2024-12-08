@@ -371,12 +371,12 @@
                     </div>
 
                     <div class="space-y-2">
-                            <ServicesMultiSelect
-                                id="specializations"
-                                label="Спеціалізації"
-                                :options="carBrands"
-                                v-model="specializationsData"
-                            />
+                        <ServicesMultiSelect
+                            id="specializations"
+                            label="Спеціалізації"
+                            :options="carBrands"
+                            v-model="specializationsData"
+                        />
                         </div>
 
                     <DialogFooter>
@@ -536,7 +536,7 @@ const editFormData = ref({
     rating: ""
 });
 
-const specializationsData = ref<{ brandId: number; brandName: string }[]>([]);
+const specializationsData = ref<number[]>([]);
 
 const columns: ColumnDef<ServiceStation>[] = [
     {
@@ -690,6 +690,10 @@ const handleCloseDeletePopup = () => {
 };
 
 const handleOpenEditPopup = (station: ServiceStation) => {
+    specializationsData.value = [...new Set(
+        station.specializations.map(spec => spec.brandId)
+    )];
+
     editFormData.value = {
         ...station,
         cityId: station.cityId.toString(),
@@ -730,6 +734,8 @@ const handleEditSubmit = async () => {
 };
 
 const handleSubmitSpecializations = async () => {
+    
+    
     try {
         const specializations = specializationsData.value.map(carBrandId => ({
             stationId: editFormData.value.stationId,
