@@ -734,23 +734,14 @@ const handleEditSubmit = async () => {
 };
 
 const handleSubmitSpecializations = async () => {
-    
-    
     try {
-        const specializations = specializationsData.value.map(carBrandId => ({
-            stationId: editFormData.value.stationId,
-            brandId: carBrandId
-        }));
-
-        if (specializations.length > 0) {
-            const promises = specializations.map(spec => 
-                $axios.post('/specializations', spec)
-            );
+        if (specializationsData.value.length > 0) {
+            await $axios.post('/specializations/batch-update', {
+                stationId: editFormData.value.stationId,
+                specializations: specializationsData.value
+            });
             
-            await Promise.all(promises);
-
-            fetchServiceStations();
-            
+            await fetchServiceStations();
             toast.success('Спеціалізації успішно оновлено');
         }
     } catch (error: any) {
