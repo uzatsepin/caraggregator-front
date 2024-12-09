@@ -1,6 +1,6 @@
 <template>
     <div class="mt-8">
-        <h2 class="font-bold text-slate-700">Статистика СТО</h2>
+        <h2 class="font-bold text-slate-700 text-xl">Статистика СТО</h2>
 
         <div class="w-full">
             <div class="flex items-center py-4">
@@ -137,10 +137,6 @@ const columns: ColumnDef<Performance>[] = [
         header: "Місто"
     },
     {
-        accessorKey: "brand_name",
-        header: "Бренд"
-    },
-    {
         accessorKey: "total_orders",
         header: "Замовлень"
     },
@@ -168,7 +164,7 @@ const columns: ColumnDef<Performance>[] = [
     },
     {
         accessorKey: "completed_services",
-        header: "Замовлень"
+        header: "Завершено робіт"
     },
 ];
 

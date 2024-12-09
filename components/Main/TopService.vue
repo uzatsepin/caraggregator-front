@@ -7,17 +7,31 @@
                 <Icon name="lucide:navigation" class="w-5 h-5"/>
                 <span class="text-slate-600">{{item?.city_name}}</span>
             </p>
-            <!-- <p class="flex items-center gap-2 mt-4">
-                <Icon name="lucide:message-circle-heart" class="w-5 h-5" />
-                <span class="text-slate-600">Рейтинг:</span>
-                <span class="text-slate-800">{{item?.rating}}</span>
-            </p> -->
             <p class="flex items-center gap-2 mt-4">
                 <Icon name="maki:car-repair" class="w-5 h-5" />
                 <span class="text-slate-600">Виконано замовлень:</span>
                 <span class="text-slate-800">{{item?.total_orders}}</span>
             </p>
 
+            <p class="flex items-center gap-2 mt-4">
+                <Icon name="tdesign:money-filled" class="w-5 h-5" />
+                <span class="text-slate-600">Всього зароблено:</span>
+                <span class="text-slate-800">{{ new Intl.NumberFormat("uk-UA", {
+                    style: "currency",
+                    currency: "UAH",
+                    minimumFractionDigits: 0
+                }).format(Number(item?.total_cost)) }}</span>
+            </p>
+
+            <p class="flex items-center gap-2 mt-4">
+                <Icon name="hugeicons:chart-average" class="w-5 h-5" />
+                <span class="text-slate-600">Середня вартість:</span>
+                <span class="text-slate-800">{{ new Intl.NumberFormat("uk-UA", {
+                    style: "currency",
+                    currency: "UAH",
+                    minimumFractionDigits: 0
+                }).format(Number(item?.avg_order_cost) || 0) }}</span>
+            </p>
         </div>
     </div>
 </template>

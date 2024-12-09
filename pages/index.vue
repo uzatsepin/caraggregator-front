@@ -5,7 +5,7 @@
         <MainChartServices />
 
         <div class="mt-8">
-            <h2 class="font-bold text-slate-700">Топ 3 сервіси за рейтингом</h2>
+            <h2 class="font-bold text-slate-700 text-xl">Топ 3 сервіси за рейтингом</h2>
             <div class="flex gap-8">
                 <MainTopService
                     v-for="item in topServices.slice(0, 3)"
@@ -27,11 +27,12 @@
 const { $axios } = useNuxtApp();
 
 export interface ITopService {
-    city_name: string;
-    rating: string;
     station_name: string;
-    total_orders: string;
+    city_name: string;
+    total_cost: number;
+    total_orders: number;
     icon?: string;
+    avg_order_cost: number;
 }
 
 const topServices = ref<ITopService[]>([]);

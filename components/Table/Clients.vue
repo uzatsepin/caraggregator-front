@@ -137,13 +137,13 @@
                                             name="heroicons:trash"
                                             class="w-5 h-5" />
                                     </button>
-                                    <button
-                                        class="p-2 w-[36px] h-[36px] text-green-600 hover:text-green-800 rounded-full hover:bg-green-100 transition-all duration-300"
-                                        @click="handleOpenViewPopup(row.original.clientId)">
-                                        <Icon
-                                            name="heroicons:eye"
-                                            class="w-5 h-5" />
-                                    </button>
+<!--                                    <button-->
+<!--                                        class="p-2 w-[36px] h-[36px] text-green-600 hover:text-green-800 rounded-full hover:bg-green-100 transition-all duration-300"-->
+<!--                                        @click="handleOpenViewPopup(row.original.clientId)">-->
+<!--                                        <Icon-->
+<!--                                            name="heroicons:eye"-->
+<!--                                            class="w-5 h-5" />-->
+<!--                                    </button>-->
                                 </div>
                             </template>
                             <template v-if="cell.column.id === 'car'">

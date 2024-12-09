@@ -88,11 +88,15 @@ const fetchServiceOrders = async () => {
         const dailyTotals: { [key: string]: number } = {};
 
         orders.forEach((order) => {
-            const orderDate = new Date(order.orderDate);
-            const day = orderDate.toISOString().split("T")[0];
-            dailyTotals[day] = (dailyTotals[day] || 0) + parseFloat(order.totalCost);
+            // Проверяем статус заказа
+            if (order.status === "Завершено") {
+                const orderDate = new Date(order.orderDate);
+                const day = orderDate.toISOString().split("T")[0]; // Получаем только дату без времени
+                dailyTotals[day] = (dailyTotals[day] || 0) + parseFloat(order.totalCost); // Суммируем стоимость
+            }
         });
 
+        // Преобразуем объект в массив для отображения
         chartData.value = Object.keys(dailyTotals).map((day) => ({
             name: day,
             total: dailyTotals[day]

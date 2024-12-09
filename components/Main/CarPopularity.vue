@@ -1,6 +1,6 @@
 <template>
     <div class="mt-8">
-        <h2 class="font-bold text-slate-700">Популярні авто на сервісі</h2>
+        <h2 class="font-bold text-slate-700 text-xl">Популярні авто на сервісі</h2>
 
         <div class="w-full">
             <div class="flex items-center py-4">

@@ -1,9 +1,10 @@
 <template>
     <div>
-        <h2 class="font-bold text-slate-700">Вартість ремонту по брендам</h2>
+        <h2 class="font-bold text-slate-700 text-xl">Вартість ремонту по брендам</h2>
 
-        <div class="mt-6 grid grid-cols-5 gap-6 overflow-hidden">
-            <div class="px-4 py-6 border border-slate-200 rounded-2xl shadow-md" v-for="(brand, index) in brandsCost" :key="index">
+        <div class="mt-6 flex flex-nowrap overflow-x-scroll gap-6">
+            <div class="px-4 py-6 border border-slate-200 rounded-2xl shadow-md min-w-[350px]" v-for="(brand, index) in brandsCost"
+                 :key="index">
                 <img :src="brand.brand_logo" alt="Brand" class="w-auto h-24 mx-auto" />
                 <h3 class="font-bold text-xl text-center mt-4">{{ brand?.brand_name }}</h3>
 

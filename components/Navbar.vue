@@ -4,8 +4,6 @@
             <NuxtImg src="/images/logo.svg" class="w-auto max-w-36 mx-auto"/>
             <h1 class="font-bold text-2xl text-center">CarService Aggregator</h1>
         </div>
-        <h2>test</h2>
-
         <ul class="flex flex-col gap-2 mt-16">
             <li
                 v-for="page in pages"
