@@ -5,7 +5,8 @@
         <MainChartServices />
 
         <div class="mt-8">
-            <h2 class="font-bold text-slate-700 text-xl">Топ 3 сервіси за рейтингом</h2>
+            <h2 class="text-3xl font-bold text-slate-800">3 найкращих станції обслуговування</h2>
+            <p class="mt-2 text-slate-700">Станції, які за прибутковістю та сумою замолень вважаються найкращими</p>
             <div class="flex gap-8">
                 <MainTopService
                     v-for="item in topServices.slice(0, 3)"
@@ -20,6 +21,8 @@
         <MainBrandsCost />
 
         <MainStationPerformance />
+
+        <MainStationBrandRevenue />
     </div>
 </template>
 

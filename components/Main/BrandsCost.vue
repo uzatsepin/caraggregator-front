@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <h2 class="font-bold text-slate-700 text-xl">Вартість ремонту по брендам</h2>
+    <div class="mt-6">
+        <h2 class="text-3xl font-bold text-slate-800">Вартість ремонту по брендам</h2>
+        <p class="mt-2 text-slate-700">Статистика вартості ремонту по брендам, для визначення який бренд частіше за все потрапляє на
+            сервіс</p>
 
         <div class="mt-6 flex flex-nowrap overflow-x-scroll gap-6">
             <div class="px-4 py-6 border border-slate-200 rounded-2xl shadow-md min-w-[350px]" v-for="(brand, index) in brandsCost"

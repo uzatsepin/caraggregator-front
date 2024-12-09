@@ -1,6 +1,7 @@
 <template>
     <div class="mt-8">
-        <h2 class="font-bold text-slate-700 text-xl">Популярні авто на сервісі</h2>
+        <h2 class="text-3xl font-bold text-slate-800">Популярні авто</h2>
+        <p class="mt-2 text-slate-700">Який бренд на марка автомобіля найчастіше обслуговується</p>
 
         <div class="w-full">
             <div class="flex items-center py-4">
@@ -129,11 +130,8 @@ onMounted(async () => {
 const columns: ColumnDef<CarModelStats>[] = [
     {
         accessorKey: "brand_name",
-        header: "Назва бренду"
-    },
-    {
-        accessorKey: "model_name",
-        header: "Модель"
+        header: "Бренд/Модель",
+        cell: ({row}) => `${row.original.brand_name} ${row.original.model_name}`
     },
     {
         accessorKey: "model_year",
@@ -159,7 +157,7 @@ const columns: ColumnDef<CarModelStats>[] = [
     {
         accessorKey: "avgMileage",
         header: "Середній пробіг",
-        cell: ({ row }) => h("span", `${row.original.avg_mileage} км`)
+        cell: ({ row }) => h("span", `${row.original.avg_mileage.toFixed()} км`)
     }
 ];
 

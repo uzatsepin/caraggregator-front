@@ -1,7 +1,7 @@
 <template>
-    <div class="mt-8">
-        <h2 class="font-bold text-slate-700 text-xl">Статистика СТО</h2>
-
+    <div class="mt-10">
+        <h2 class="text-3xl font-bold text-slate-800">Статистика СТО</h2>
+        <p class="mt-2 text-slate-700">Статистика прибутковості кожного СТО</p>
         <div class="w-full">
             <div class="flex items-center py-4">
                 <input
