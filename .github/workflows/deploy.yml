@@ -1,0 +1,56 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.10.0'
+
+      - name: Install dependencies
+        run: |
+          yarn install
+
+      - name: Build the app
+        run: |
+          yarn build
+
+      - name: Generate the app
+        run: |
+          yarn generate
+
+      - name: Clean up previous files
+        run: |
+          sudo rm -rf /var/www/html/webway.click/*
+
+      - name: Deploy the app to VPS
+        run: |
+          # Устанавливаем приватный ключ в файл для SSH
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa  # Даем правильные права на ключ
+          
+          # Отключаем проверку хостов для SSH (иначе запросит подтверждение)
+          echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
+          
+          # Подключаемся к серверу по SSH и выполняем команды деплоя
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            cd /var/www/html/webway.click || exit
+            git pull || exit
+            yarn generate || exit
+            sudo cp -r .output/public/* /var/www/html/webway.click || exit
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
