@@ -52,16 +52,16 @@ jobs:
           
           # Переходим в папку с проектом на сервере
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            # Переходим в папку с проектом
-            cd /caraggregator-front || exit
+            # Переходим в папку с проектом caraggregator-front
+            cd /root/caraggregator-front || exit
           
             # Получаем последние изменения из репозитория
             git pull || exit
           
-            # Генерируем приложение (если нужно)
+            # Генерируем приложение, если нужно
             yarn generate || exit
           
-            # Копируем сгенерированные файлы в директорию сайта
+            # Копируем сгенерированные файлы
             sudo cp -r .output/public/* /var/www/html/webway.click || exit
           EOF
         env:
