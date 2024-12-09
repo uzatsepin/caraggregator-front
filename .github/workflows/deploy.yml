@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Шаг для установки Node.js
+      # Шаг для установки Node.js (указываем нужную версию)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0'
+          node-version: '20.10.0'  # Укажите вашу версию Node.js, если нужно
 
       # Шаг для установки зависимостей
       - name: Install dependencies
@@ -38,27 +38,23 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Шаг для тестирования SSH-подключения
-      - name: Test SSH connection
+      # Шаг для добавления ключа хоста в known_hosts
+      - name: Add VPS host to known_hosts
         run: |
-          ssh -v ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
 
       # Шаг для деплоя на сервер
       - name: Deploy the app to VPS
         run: |
-          # Добавляем публичный ключ сервера в known_hosts, чтобы избежать ошибок
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-          
-          # Теперь подключаемся к серверу
+          # Подключаемся к серверу
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
           
-          # Ваши команды для деплоя
+          # Переходим в папку с проектом на сервере
           ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            # Переходим в папку с проектом
             cd /var/www/html/webway.click || exit
           
-            # Получаем последние изменения
+            # Получаем последние изменения из репозитория
             git pull || exit
           
             # Генерируем приложение, если нужно
