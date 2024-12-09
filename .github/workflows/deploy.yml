@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Шаг для установки Node.js
+      # Шаг для установки Node.js (указываем нужную версию)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0'
+          node-version: '20.10.0'  # Укажите вашу версию Node.js, если нужно
 
       # Шаг для установки зависимостей
       - name: Install dependencies
@@ -32,41 +32,33 @@ jobs:
       - name: Generate the app
         run: yarn generate
 
-      # Шаг для настройки SSH-ключа
-      - name: Set up SSH
-        run: |
-          # Создаем директорию для SSH ключей
-          mkdir -p ~/.ssh
-          
-          # Добавляем приватный ключ в файл
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          
-          # Настроим SSH для пропуска проверки хоста (чтобы не нужно было подтверждать добавление хоста)
-          echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
+      # Шаг для настройки SSH-агента
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Шаг для тестирования SSH подключения
+      # Шаг для тестирования SSH-подключения
       - name: Test SSH connection
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
+          ssh -v ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
 
       # Шаг для деплоя на сервер
       - name: Deploy the app to VPS
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
             # Переходим в папку с вашим проектом на сервере
             cd /var/www/html/webway.click || exit
           
             # Получаем последние изменения из репозитория
             git pull || exit
           
-            # Генерируем приложение (если нужно, зависит от вашего фреймворка)
+            # Генерируем приложение, если нужно (например, для Nuxt.js)
             yarn generate || exit
           
             # Копируем сгенерированные файлы в публичную директорию
             sudo cp -r .output/public/* /var/www/html/webway.click || exit
           EOF
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          VPS_HOST: ${{ secrets.VPS_HOST }}
           VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
