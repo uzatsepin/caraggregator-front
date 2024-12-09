@@ -14,11 +14,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Шаг для установки Node.js (указываем нужную версию)
+      # Шаг для установки Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.10.0'  # Укажите вашу версию Node.js, если нужно
+          node-version: '20.10.0'
 
       # Шаг для установки зависимостей
       - name: Install dependencies
