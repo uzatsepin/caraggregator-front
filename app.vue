@@ -27,4 +27,9 @@ aside {
 
 <script setup lang="ts">
 import { Toaster } from '@/components/ui/sonner'
+
+useSeoMeta({
+  title: 'Курсова | Dashboard | CarService Agregator',
+  description: 'Курсова робота з дисципліни РБД'
+})
 </script>
