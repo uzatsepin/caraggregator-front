@@ -36,6 +36,9 @@ jobs:
 
       - name: Deploy the app to VPS
         run: |
+          # Создаем директорию для SSH ключей, если она не существует
+          mkdir -p ~/.ssh
+          
           # Устанавливаем приватный ключ в файл для SSH
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa  # Даем правильные права на ключ
