@@ -3,54 +3,67 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main
+      - main  # Запускать деплой при пуше в main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Запуск на последней версии Ubuntu
 
     steps:
+      # Шаг для клонирования репозитория
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Шаг для установки Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.10.0'
 
+      # Шаг для установки зависимостей
       - name: Install dependencies
-        run: |
-          yarn install
+        run: yarn install
 
+      # Шаг для сборки приложения
       - name: Build the app
-        run: |
-          yarn build
+        run: yarn build
 
+      # Шаг для генерации статичных файлов (если используется Nuxt.js или аналогичный фреймворк)
       - name: Generate the app
-        run: |
-          yarn generate
+        run: yarn generate
 
-      - name: Clean up previous files
+      # Шаг для настройки SSH-ключа
+      - name: Set up SSH
         run: |
-          sudo rm -rf /var/www/html/webway.click/*
-
-      - name: Deploy the app to VPS
-        run: |
-          # Создаем директорию для SSH ключей, если она не существует
+          # Создаем директорию для SSH ключей
           mkdir -p ~/.ssh
           
-          # Устанавливаем приватный ключ в файл для SSH
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa  # Даем правильные права на ключ
+          # Добавляем приватный ключ в файл
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
           
-          # Отключаем проверку хостов для SSH (иначе запросит подтверждение)
+          # Настроим SSH для пропуска проверки хоста (чтобы не нужно было подтверждать добавление хоста)
           echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
-          
-          # Подключаемся к серверу по SSH и выполняем команды деплоя
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+
+      # Шаг для тестирования SSH подключения
+      - name: Test SSH connection
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
+
+      # Шаг для деплоя на сервер
+      - name: Deploy the app to VPS
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            # Переходим в папку с вашим проектом на сервере
             cd /var/www/html/webway.click || exit
+          
+            # Получаем последние изменения из репозитория
             git pull || exit
+          
+            # Генерируем приложение (если нужно, зависит от вашего фреймворка)
             yarn generate || exit
+          
+            # Копируем сгенерированные файлы в публичную директорию
             sudo cp -r .output/public/* /var/www/html/webway.click || exit
           EOF
         env:
