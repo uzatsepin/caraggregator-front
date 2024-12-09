@@ -46,17 +46,25 @@ jobs:
       # Шаг для деплоя на сервер
       - name: Deploy the app to VPS
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
-            # Переходим в папку с вашим проектом на сервере
+          # Добавляем публичный ключ сервера в known_hosts, чтобы избежать ошибок
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+          
+          # Теперь подключаемся к серверу
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} 'echo "SSH connection successful"'
+          
+          # Ваши команды для деплоя
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            # Переходим в папку с проектом
             cd /var/www/html/webway.click || exit
           
-            # Получаем последние изменения из репозитория
+            # Получаем последние изменения
             git pull || exit
           
-            # Генерируем приложение, если нужно (например, для Nuxt.js)
+            # Генерируем приложение, если нужно
             yarn generate || exit
           
-            # Копируем сгенерированные файлы в публичную директорию
+            # Копируем сгенерированные файлы
             sudo cp -r .output/public/* /var/www/html/webway.click || exit
           EOF
         env:
