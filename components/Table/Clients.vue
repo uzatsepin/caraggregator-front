@@ -861,7 +861,7 @@ const handleCloseCarPopup = () => {
 onMounted(fetchClients);
 
 watchEffect(() => {
-    table.setPageSize(10);
+    table.setPageSize(20);
 });
 </script>
 
